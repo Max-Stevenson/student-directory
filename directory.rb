@@ -13,6 +13,29 @@ students = [
 {name: "Norman Bates", cohort: :november}
 ]
 
+# Method for interactive menu
+def interactive_menu
+	students = []
+	loop do
+		puts "1. Input new students."
+		puts "2. Show students."
+		puts "9. Exit program."
+		selection = gets.chomp
+		case selection
+		when "1"
+			students = input_students_improved
+		when "2"
+			print_header
+			print_students(students)
+			print_footer(students)
+		when "9"
+			exit
+		else
+			puts "Invalid choice - try again."
+		end
+	end
+end
+
 # Method for user to input custom list of students
 def input_students
 	puts "Please enter the names of the students"
@@ -187,8 +210,4 @@ end
 # Exercise 11: 
 # Error checking sample file
 
-
-students = input_students_improved
-print_header
-print_by_cohort(students)
-print_footer (students)
+interactive_menu
