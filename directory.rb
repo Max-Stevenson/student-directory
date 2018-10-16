@@ -6,8 +6,8 @@ students = [
 {name: "Michael Corleone", cohort: :november, hobbies: "Racketeering, protection", country_of_birth: :USA},
 {name: "Alex DeLarge", cohort: :november, hobbies: "Ultraviolence", country_of_birth: :UK},
 {name: "The Wicked Witch of the West", cohort: :november, hobbies: "Witchcraft", country_of_birth: :Oz},
-{name: "Terminator", cohort: :november},
-{name: "Freddy Krueger", cohort: :november},
+{name: "Terminator", cohort: :november, hobbies: "Looking for Sarah Connor", country_of_birth: :NA},
+{name: "Freddy Krueger", cohort: :november, hobbies: "Dream stalking", country_of_birth: :USA},
 {name: "The Joker", cohort: :november},
 {name: "Joffrey Baratheon", cohort: :november},
 {name: "Norman Bates", cohort: :november}
@@ -45,7 +45,13 @@ end
 
 # Footer method using string interpolation to print total number of students contained in students hash
 def print_footer student_arr
-	puts "Overall, we have #{student_arr.count} great students"
+	student_var = ""
+	if student_arr.length == 1
+		student_var = "student"
+	else
+		student_var = "students"
+	end
+	puts "Overall, we have #{student_arr.count} great #{student_var}"
 end
 
 # Exercise 1: print index before each student's name
@@ -166,6 +172,21 @@ def print_students_by_cohort student_arr
   end
   puts sorted_by_input.flatten
 end
+
+# Exercise 9: Fix footer to display correct grammar
+# Original footer modified with if else branch
+
+# Exercise 10: Alternative to chomp() method
+def chomp_alt
+	puts "Please enter some text to see various alternatives to the chomp() method"
+	choice = gets.chop
+	puts choice
+	choice = gets.strip
+end
+
+# Exercise 11: 
+# Error checking sample file
+
 
 students = input_students_improved
 print_header
