@@ -42,7 +42,7 @@ def process (selection)
 	when "3"
 		save_students
 	when "4"
-		load_students
+		load_students_CSV
 	when "5"
 		delete_student
 	when "9"
@@ -76,6 +76,16 @@ def input_students
 		push_to_array (name)
 		puts "Now we have #{@students.count} students"
 		name = STDIN.gets.chomp
+	end
+end
+
+# Method to load students utilising CSV library
+def load_students_CSV
+	require 'csv'
+	puts "Please enter file to load students from - please include file extension"
+	usr_choice = gets.chomp
+	CSV.foreach(usr_choice) do |row|
+		push_to_array(row[0])
 	end
 end
 
@@ -127,6 +137,13 @@ def save_students
 		file.close
 	puts "#{usr_file} saved succesffuly"
 end
+
+def CSV_save_students
+	puts "What file would you like to save to?"
+	usr_file = gets.chomp
+
+end
+
 
 def try_load_students (file = "students.csv")
 	filename = ARGV.first
