@@ -21,6 +21,7 @@ def print_menu
 	puts "2. Show students."
 	puts "3. Save students to CSV."
 	puts "4. Load students from CSV."
+	puts "5. Delete a student."
 	puts "9. Exit program."
 end
 
@@ -42,6 +43,8 @@ def process (selection)
 		save_students
 	when "4"
 		load_students
+	when "5"
+		delete_student
 	when "9"
 		exit
 	else
@@ -50,13 +53,18 @@ def process (selection)
 end
 
 # Refactor - interactive menu utilising methods
-
 def interactive_menu
 	loop do
 		print_menu
 		process(STDIN.gets.chomp)
 	end
 end
+
+# Refactor method - add data to @students global array
+def push_to_array (student_data)
+	@students << {name: student_data, cohort: :november}
+end
+
 
 # Method for user to input custom list of students
 def input_students
@@ -65,7 +73,7 @@ def input_students
 	# get the first name
 	name = STDIN.gets.chomp
 	while !name.empty? do
-		@students << {name: name, cohort: :november}
+		push_to_array (name)
 		puts "Now we have #{@students.count} students"
 		name = STDIN.gets.chomp
 	end
@@ -75,9 +83,10 @@ def load_students (filename = "students.csv")
 	file = File.open(filename, "r")
 	file.readlines.each do |line|
 		name, cohort = line.chomp.split(',')
-		@students << {name: name, cohort: cohort.to_sym}
+		push_to_array (name)
 	end
 	file.close
+	puts "#{filename} loaded succesffuly"
 end
 
 # Header method to print beginner header
@@ -105,8 +114,10 @@ def print_footer
 end
 
 def save_students
+	puts "What file would you like to save to?"
+	usr_file = gets.chomp
 	# open file for processing
-	file = File.open("students.csv", "w")
+	file = File.open(usr_file, "w")
 	# iterate over student array
 	@students.each do |student|
 		student_data = [student[:name], student[:cohort]]
@@ -114,17 +125,31 @@ def save_students
 		file.puts csv_line
 	end
 		file.close
+	puts "#{usr_file} saved succesffuly"
 end
 
-def try_load_students
+def try_load_students (file = "students.csv")
 	filename = ARGV.first
-	return if filename.nil?
-	if File.exists?(filename)
+	if filename.nil?
+		load_students(file)
+		puts "Loaded #{@students.count} from #{file}"
+	elsif File.exists?(filename)
 		load_students(filename)
 		puts "Loaded #{@students.count} from #{filename}"
 	else
 		puts "Sorry, #{filename} doesn't exist."
 		exit
+	end
+end
+
+# Method to delete students from the global students array
+def delete_student
+	puts "Please enter the name of the student you wish to delete"
+	usr_choice = gets.chomp
+	if @students.delete_if {|x| x[:name].include?(usr_choice)}
+		puts "#{usr_choice} was deleted succesffuly"
+	else
+		puts "Error #{usr_choice} does not exist!"
 	end
 end
 
