@@ -63,8 +63,8 @@ end
 # Refactor method - add data to @students global array
 def push_to_array (student_data)
 	@students << {name: student_data, cohort: :november}
+	@students.uniq!
 end
-
 
 # Method for user to input custom list of students
 def input_students
@@ -87,6 +87,7 @@ def load_students_CSV
 	CSV.foreach(usr_choice) do |row|
 		push_to_array(row[0])
 	end
+	puts "#{usr_choice} loaded succesffuly"
 end
 
 def load_students (filename = "students.csv")
@@ -141,7 +142,6 @@ end
 def CSV_save_students
 	puts "What file would you like to save to?"
 	usr_file = gets.chomp
-
 end
 
 
@@ -162,7 +162,7 @@ end
 # Method to delete students from the global students array
 def delete_student
 	puts "Please enter the name of the student you wish to delete"
-	usr_choice = gets.chomp
+	usr_choice = gets.chomp.capitalize
 	if @students.delete_if {|x| x[:name].include?(usr_choice)}
 		puts "#{usr_choice} was deleted succesffuly"
 	else
